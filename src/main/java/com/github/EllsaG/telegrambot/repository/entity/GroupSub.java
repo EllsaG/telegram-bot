@@ -22,6 +22,7 @@ import static java.util.Objects.isNull;
 public class GroupSub {
 
     @Id
+    @Column(name = "id")
     private Integer id;
 
     @Column(name = "title")

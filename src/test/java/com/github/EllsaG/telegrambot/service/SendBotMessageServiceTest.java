@@ -32,7 +32,7 @@ public class SendBotMessageServiceTest {
         sendMessage.enableHtml(true);
 
         //when
-        sendBotMessageService.sendMessage(chatId, message);
+        sendBotMessageService.sendMessage(Long.valueOf(chatId), message);
 
         //then
         Mockito.verify(javarushBot).execute(sendMessage);

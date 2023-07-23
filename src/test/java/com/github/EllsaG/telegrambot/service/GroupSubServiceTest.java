@@ -18,8 +18,8 @@ public class GroupSubServiceTest {
     private GroupSubRepository groupSubRepository;
     private TelegramUser newUser;
 
-    private final static String CHAT_ID = "1";
-
+    private final static Long CHAT_ID = 1234234L;
+    private final static Integer GROUP_ID = 1123;
     @BeforeEach
     public void init() {
         TelegramUserService telegramUserService = Mockito.mock(TelegramUserService.class);
@@ -57,7 +57,7 @@ public class GroupSubServiceTest {
     public void shouldProperlyAddUserToExistingGroup() {
         //given
         TelegramUser oldTelegramUser = new TelegramUser();
-        oldTelegramUser.setChatId("2");
+        oldTelegramUser.setChatId(2L);
         oldTelegramUser.setActive(true);
 
         GroupDiscussionInfo groupDiscussionInfo = new GroupDiscussionInfo();
