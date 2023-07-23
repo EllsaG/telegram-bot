@@ -4,6 +4,8 @@ import com.github.EllsaG.telegrambot.command.Command;
 import com.github.EllsaG.telegrambot.command.CommandContainer;
 import com.github.EllsaG.telegrambot.command.CommandName;
 import com.github.EllsaG.telegrambot.command.UnknownCommand;
+import com.github.EllsaG.telegrambot.javarushclient.JavaRushGroupClient;
+import com.github.EllsaG.telegrambot.service.GroupSubService;
 import com.github.EllsaG.telegrambot.service.SendBotMessageService;
 import com.github.EllsaG.telegrambot.service.TelegramUserService;
 import org.junit.jupiter.api.Assertions;
@@ -23,7 +25,10 @@ class CommandContainerTest {
     public void init() {
         SendBotMessageService sendBotMessageService = Mockito.mock(SendBotMessageService.class);
         TelegramUserService telegramUserService = Mockito.mock(TelegramUserService.class);
-        commandContainer = new CommandContainer(sendBotMessageService, telegramUserService);
+        JavaRushGroupClient groupClient = Mockito.mock(JavaRushGroupClient.class);
+        GroupSubService groupSubService = Mockito.mock(GroupSubService.class);
+        commandContainer = new CommandContainer(sendBotMessageService, telegramUserService,
+                groupClient, groupSubService);
     }
 
     @Test
