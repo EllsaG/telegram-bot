@@ -1,6 +1,7 @@
 package com.github.EllsaG.telegrambot.service;
 
 
+import com.github.EllsaG.telegrambot.javarushclient.JavaRushGroupClient;
 import com.github.EllsaG.telegrambot.javarushclient.dto.GroupDiscussionInfo;
 import com.github.EllsaG.telegrambot.repository.GroupSubRepository;
 import com.github.EllsaG.telegrambot.repository.entity.GroupSub;
@@ -15,13 +16,16 @@ import java.util.Optional;
 @Service
 public class GroupSubServiceImpl implements GroupSubService {
 
+
     private final GroupSubRepository groupSubRepository;
     private final TelegramUserService telegramUserService;
+    private final JavaRushGroupClient javaRushGroupClient;
 
     @Autowired
-    public GroupSubServiceImpl(GroupSubRepository groupSubRepository, TelegramUserService telegramUserService) {
+    public GroupSubServiceImpl(GroupSubRepository groupSubRepository, TelegramUserService telegramUserService, JavaRushGroupClient javaRushGroupClient) {
         this.groupSubRepository = groupSubRepository;
         this.telegramUserService = telegramUserService;
+        this.javaRushGroupClient = javaRushGroupClient;
     }
 
     @Override
@@ -30,17 +34,18 @@ public class GroupSubServiceImpl implements GroupSubService {
         //TODO add exception handling
         GroupSub groupSub;
         Optional<GroupSub> groupSubFromDB = groupSubRepository.findById(groupDiscussionInfo.getId());
-        if(groupSubFromDB.isPresent()) {
+        if (groupSubFromDB.isPresent()) {
             groupSub = groupSubFromDB.get();
             Optional<TelegramUser> first = groupSub.getUsers().stream()
                     .filter(it -> it.getChatId().equals(chatId))
                     .findFirst();
-            if(first.isEmpty()) {
+            if (first.isEmpty()) {
                 groupSub.addUser(telegramUser);
             }
         } else {
             groupSub = new GroupSub();
             groupSub.addUser(telegramUser);
+            groupSub.setLastPostId(javaRushGroupClient.findLastPostId(groupDiscussionInfo.getId()));
             groupSub.setId(groupDiscussionInfo.getId());
             groupSub.setTitle(groupDiscussionInfo.getTitle());
         }

@@ -2,12 +2,14 @@ package com.github.EllsaG.telegrambot.command;
 
 import com.github.EllsaG.telegrambot.javarushclient.JavaRushGroupClient;
 import com.github.EllsaG.telegrambot.javarushclient.dto.GroupDiscussionInfo;
+import com.github.EllsaG.telegrambot.javarushclient.dto.GroupInfo;
 import com.github.EllsaG.telegrambot.javarushclient.dto.GroupRequestArgs;
 import com.github.EllsaG.telegrambot.repository.entity.GroupSub;
 import com.github.EllsaG.telegrambot.service.GroupSubService;
 import com.github.EllsaG.telegrambot.service.SendBotMessageService;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.github.EllsaG.telegrambot.command.CommandName.ADD_GROUP_SUB;
@@ -57,7 +59,11 @@ public class AddGroupSubCommand implements Command {
     }
 
     private void sendGroupIdList(Long chatId) {
-        String groupIds = javaRushGroupClient.getGroupList(GroupRequestArgs.builder().build()).stream()
+
+        GroupRequestArgs build = GroupRequestArgs.builder().build();
+        List<GroupInfo> groupList = javaRushGroupClient.getGroupList(build);
+
+        String groupIds = groupList.stream()
                 .map(group -> String.format("%s - %s \n", group.getTitle(), group.getId()))
                 .collect(Collectors.joining());
 
