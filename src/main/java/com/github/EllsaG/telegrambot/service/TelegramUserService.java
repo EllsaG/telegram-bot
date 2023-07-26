@@ -9,4 +9,10 @@ public interface TelegramUserService {
     void save(TelegramUser telegramUser);
     List<TelegramUser> retrieveAllActiveUsers();
     Optional<TelegramUser> findByChatId(Long chatId);
+    /**
+     * Retrieve all inactive {@link TelegramUser}
+     *
+     * @return the collection of the inactive {@link TelegramUser} objects.
+     */
+    List<TelegramUser> findAllInActiveUsers();
 }
