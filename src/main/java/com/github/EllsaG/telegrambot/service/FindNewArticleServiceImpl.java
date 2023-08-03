@@ -36,7 +36,7 @@ public class FindNewArticleServiceImpl implements FindNewArticleService {
         groupSubService.findAll().forEach(gSub -> {
             List<PostInfo> newPosts = javaRushPostClient.findNewPosts(gSub.getId(), gSub.getLastPostId());
 
-            setNewLastArticleId(gSub, newPosts);
+            setNewLastPostId(gSub, newPosts);
 
             notifySubscribersAboutNewArticles(gSub, newPosts);
         });
@@ -56,7 +56,7 @@ public class FindNewArticleServiceImpl implements FindNewArticleService {
                 .forEach(it -> sendMessageService.sendMessage(it.getChatId(), messagesWithNewArticles.toString()));
     }
 
-    private void setNewLastArticleId(GroupSub gSub, List<PostInfo> newPosts) {
+    private void setNewLastPostId(GroupSub gSub, List<PostInfo> newPosts) {
         newPosts.stream().mapToInt(PostInfo::getId).max()
                 .ifPresent(id -> {
                     gSub.setLastPostId(id);
