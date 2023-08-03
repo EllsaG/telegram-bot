@@ -28,7 +28,7 @@ public class StatisticsServiceImpl implements StatisticsService {
                 .map(groupSub -> new GroupStatDTO(groupSub.getId(), groupSub.getTitle(), groupSub.getUsers().size()))
                 .collect(Collectors.toList());
         List<TelegramUser> allInActiveUsers = telegramUserService.findAllInActiveUsers();
-        List<TelegramUser> allActiveUsers = telegramUserService.findAllInActiveUsers();
+        List<TelegramUser> allActiveUsers = telegramUserService.findAllActiveUsers();
 
         double groupsPerUser = getGroupsPerUser(allActiveUsers);
         return new StatisticDTO(allActiveUsers.size(), allInActiveUsers.size(), groupStatDTOS, groupsPerUser);
